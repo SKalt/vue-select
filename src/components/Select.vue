@@ -470,7 +470,11 @@
         default(option) {
           if (typeof option === 'object') {
             if (!option.hasOwnProperty(this.label)) {
-              return console.warn(`[vue-select warn]: Label key "option.${this.label}" does not exist in options object.\nhttp://sagalbot.github.io/vue-select/#ex-labels`)
+              return console.warn(
+                `[vue-select warn]: Label key "option.${this.label}" does not` +
+                ` exist in options object ${JSON.stringify(option)}.\n` +
+                'http://sagalbot.github.io/vue-select/#ex-labels'
+              )
             }
             if (this.label && option[this.label]) {
               return option[this.label]
@@ -479,19 +483,19 @@
           return option;
         }
       },
-      
+
       /**
-       * Callback to filter the search result the label text. 
-       * @type   {Function} 
-       * @param  {Object || String} option 
-       * @param  {String} label 
+       * Callback to filter the search result the label text.
+       * @type   {Function}
+       * @param  {Object || String} option
+       * @param  {String} label
        * @param  {String} search
        * @return {Boolean}
        */
       filterFunction: {
         type: Function,
         default(option, label, search) {
-          return label.toLowerCase().indexOf(search.toLowerCase()) > -1 
+          return (label || '').toLowerCase().indexOf(search.toLowerCase()) > -1
         }
       },
 
@@ -948,7 +952,7 @@
         if (this.multiple) {
           return this.mutableValue
         } else if (this.mutableValue) {
-          return [this.mutableValue]
+          return [].concat(this.mutableValue)
         }
 
         return []
